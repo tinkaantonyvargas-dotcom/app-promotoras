@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tinkaventas - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="css/style-login.css">
+</head>
+<body>
+
+    <div class="login-card">
+        <img src="images/logo_principal.png" class="logo-main" alt="Logo">
+        <div class="brand-name">TINKAVENTAS</div>
+
+        <div class="input-group">
+            <label>USUARIO</label>
+            <span class="material-icons-outlined icon">person_outlined</span>
+            <input type="text" id="username" placeholder="Ingrese su código">
+        </div>
+
+        <div class="input-group">
+            <label>CONTRASEÑA</label>
+            <span class="material-icons-outlined icon">lock_outlined</span>
+            <input type="password" id="password" placeholder="Ingrese su contraseña">
+        </div>
+
+        <button class="btn-ingresar" onclick="intentarLogin()">Ingresar</button>
+        
+        <div id="mensajeError" class="error-msg">Código o DNI incorrectos</div>
+
+        <br>
+        <img src="images/logo_tinka.png" class="logo-footer" alt="La Tinka">
+    </div>
+
+    <script src="app.js">
+    </script>
+</body>
+</html>

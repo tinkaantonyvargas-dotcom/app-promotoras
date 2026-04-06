@@ -1,0 +1,135 @@
+/* --- VARIABLES DE COLOR (FLUTTERFLOW) --- */
+:root {
+    /* --primary: #4B39EF; */
+    --primary: #096045;
+    --primary-bg: #f5f0d4;    /* Color crema original de FlutterFlow */
+    --secondary-bg: #FFFFFF;
+    --text-main: #14181B;
+    --text-label: #57636C;
+    --error: #FF5963;
+    --input-border: #E0E3E7;
+}
+
+body {
+    font-family: 'Readex Pro', sans-serif; 
+    background-color: var(--primary-bg);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    background: var(--secondary-bg);
+    padding: 36px;
+    border-radius: 24px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+}
+
+/* Logos e Identidad */
+.logo-main { 
+    width: 180px; 
+    height: auto;
+    margin-bottom: 8px; 
+}
+
+.brand-name { 
+    font-size: 24px; 
+    font-weight: 600; 
+    color: var(--text-main); 
+    margin-bottom: 40px; 
+}
+
+/* --- CONTENEDOR DE INPUTS --- */
+.input-group {
+    margin-bottom: 24px;
+    text-align: left;
+    position: relative; 
+}
+
+.input-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-label);
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* El Icono dentro del Input */
+.input-group .icon {
+    position: absolute;
+    left: 14px;
+    top: 36px; /* Ajustado para centrar verticalmente con el input */
+    color: var(--text-label);
+    font-size: 20px;
+    
+    /* SOLUCIÓN AL PROBLEMA DEL CLICK: */
+    /* Esto permite que el click "atraviese" el icono y llegue al input */
+    pointer-events: none; 
+    z-index: 2;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 14px 14px 46px; /* Espacio extra a la izquierda para el icono */
+    border: 2px solid var(--input-border);
+    border-radius: 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.input-group input:focus {
+    border-color: var(--primary);
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(75, 57, 239, 0.1);
+}
+
+/* --- BOTÓN (FFButtonWidget) --- */
+.btn-ingresar {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(75, 57, 239, 0.3);
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn-ingresar:hover {
+    background-color: #3f30c9;
+    box-shadow: 0 6px 16px rgba(75, 57, 239, 0.4);
+}
+
+.btn-ingresar:active {
+    transform: scale(0.98);
+}
+
+.logo-footer { 
+    width: 110px; 
+    margin-top: 30px; 
+    opacity: 0.8; 
+}
+
+.error-msg { 
+    color: var(--error); 
+    font-size: 13px; 
+    margin-top: 12px; 
+    display: none; 
+    font-weight: 500;
+}
