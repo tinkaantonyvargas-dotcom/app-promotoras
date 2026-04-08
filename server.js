@@ -30,15 +30,9 @@ app.get('/api/dashboard/:cod', async (req, res) => {
 
 // Agrega esto justo antes del const PORT = process.env.PORT...
 const path = require('path');
-// Cambiamos ESTO
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// });
 
 // POR ESTO (Sintaxis compatible):
-app.get('/:path*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor de desarrollo corriendo en http://localhost:${PORT}`));
