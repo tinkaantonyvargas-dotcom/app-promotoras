@@ -32,7 +32,9 @@ app.get('/api/dashboard/:cod', async (req, res) => {
 const path = require('path');
 
 // POR ESTO (Sintaxis compatible):
-
+app.get('/:path*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor de desarrollo corriendo en http://localhost:${PORT}`));
