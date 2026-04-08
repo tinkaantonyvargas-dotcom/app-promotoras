@@ -32,7 +32,8 @@ app.get('/api/dashboard/:cod', async (req, res) => {
 const path = require('path');
 
 // Cambia esto en server.js
-app.get('/:catchall(.*)', (req, res) => {
+// Ojo: /.*/ va SIN comillas simples ni dobles.
+app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
