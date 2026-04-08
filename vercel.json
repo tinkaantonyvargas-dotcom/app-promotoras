@@ -12,14 +12,20 @@
       "dest": "server.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/$1",
-      "continue": true
+      "src": "/css/(.*)",
+      "dest": "/public/css/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/public/images/$1"
+    },
+    {
+      "src": "/(.*).js",
+      "dest": "/public/$1.js"
     },
     {
       "src": "/(.*)",
-      "status": 404,
-      "dest": "/public/index.html"
+      "dest": "server.js"
     }
   ]
 }
