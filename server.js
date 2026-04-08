@@ -32,7 +32,7 @@ app.get('/api/dashboard/:cod', async (req, res) => {
 const path = require('path');
 
 // Cambia esto en server.js
-app.get('*', (req, res) => {
+app.get('/:catchall(.*)', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
