@@ -3,10 +3,10 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 const NOMBRES_CATEGORIA = {
-    TK:  'Tinka Kiosco',
-    KGD: 'Kabala y Gana Diario',
-    RGG: 'Red de Gestión y Garantía',
-    TDV: 'Terminales de Venta'
+    TK:  'Tinka',
+    KGD: 'Kábala y Gana Diario',
+    RGG: 'Instantáneas y Ganagol',
+    TDV: 'Te Apuesto y Deportes Virtuales'
 };
 
 const PRODUCTOS_POR_CATEGORIA = {
