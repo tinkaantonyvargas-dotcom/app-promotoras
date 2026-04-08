@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tinkaventas</title>
+  <link rel="stylesheet" href="css/style-dash.css">
+</head>
+<body>
+<div class="phone-shell">
+
+  <!-- Pop de campaña -->
+  <div class="pop-overlay hidden" id="popOverlay">
+    <img class="pop-img" id="popImg" src="" alt="Campaña">
+    <button class="pop-close" id="popClose">Entendido</button>
+  </div>
+
+  <!-- App Bar -->
+  <header class="app-bar">
+    <div class="app-bar__row">
+      <span class="app-bar__title">Tinkaventas</span>
+      <button class="app-bar__logout" id="logoutBtn">Salir</button>
+    </div>
+    <div class="app-bar__banner" id="updatedBanner">&nbsp;</div>
+  </header>
+
+  <!-- Loading -->
+  <div class="loading" id="loadingState">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div id="mainContent" style="display:none; padding-bottom: 32px;">
+
+    <!-- Saludo / info usuario -->
+    <div class="home-greeting">
+      <div class="home-greeting__name" id="greetingName">–</div>
+      <div class="home-greeting__meta" id="greetingMeta">–</div>
+    </div>
+
+    <!-- Ranking -->
+    <div class="ranking-box" id="rankingBox" style="display:none">
+      <div class="ranking-box__icon">🏆</div>
+      <div class="ranking-box__text">Tu puesto regional<br>este mes es:</div>
+      <div class="ranking-box__pos">
+        <span class="ranking-box__arrow">↑</span>
+        <span id="rankingValue">–</span>
+      </div>
+    </div>
+
+    <!-- Menú de navegación -->
+    <div class="menu-list">
+
+      <div class="menu-card">
+        <div class="menu-card__icon">📅</div>
+        <div class="menu-card__body">
+          <div class="menu-card__title">Avance mensual</div>
+          <div class="menu-card__desc">Progreso por categoría de producto</div>
+        </div>
+        <button class="menu-card__btn" onclick="window.location.href='avance-mensual.html'">Ver detalle</button>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card__icon">📊</div>
+        <div class="menu-card__body">
+          <div class="menu-card__title">Venta por producto</div>
+          <div class="menu-card__desc">Detalle de cada producto individual</div>
+        </div>
+        <button class="menu-card__btn" onclick="window.location.href='venta-producto.html'">Ver detalle</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', async () => {
+  const cod = localStorage.getItem('cod_promotora');
+  if (!cod) { window.location.href = 'index.html'; return; }
+
+  document.getElementById('logoutBtn').onclick = () => {
+    localStorage.removeItem('cod_promotora');
+    sessionStorage.removeItem('promotora_data');
+    window.location.href = 'index.html';
+  };
+
+  document.getElementById('popClose').onclick = () => {
+    document.getElementById('popOverlay').classList.add('hidden');
+  };
+
+  // Intentar mostrar pop de campaña (silencioso si no existe)
+  const popImg = document.getElementById('popImg');
+  popImg.src = 'images/pop_inicio.png';
+  popImg.onload  = () => document.getElementById('popOverlay').classList.remove('hidden');
+  popImg.onerror = () => {}; // no existe → no mostrar nada
+
+  try {
+    const response = await fetch(`/api/dashboard/${cod}`);
+    const result   = await response.json();
+
+    document.getElementById('loadingState').style.display = 'none';
+
+    if (!result.success) {
+      document.getElementById('mainContent').style.display = 'block';
+      document.getElementById('greetingName').textContent = 'Sin datos';
+      return;
+    }
+
+    // Guardar en sessionStorage para sub-vistas
+    sessionStorage.setItem('promotora_data', JSON.stringify(result.data));
+
+    const d = result.data;
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const ts  = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    document.getElementById('updatedBanner').textContent = `Actualizado al ${ts}`;
+
+    document.getElementById('greetingName').textContent  = d.nombre_completo || `Cód. ${d.cod_promotora}`;
+    document.getElementById('greetingMeta').textContent  = `Formato: ${d.formato || '–'}  ·  Responsable: ${d.responsable || '–'}`;
+
+    if (d.posicion) {
+      document.getElementById('rankingValue').textContent = `#${d.posicion}`;
+      document.getElementById('rankingBox').style.display = 'flex';
+    }
+
+    document.getElementById('mainContent').style.display = 'block';
+
+  } catch (err) {
+    document.getElementById('loadingState').innerHTML =
+      '<p style="color:#777;padding:40px 16px;text-align:center">Error al conectar con el servidor.</p>';
+  }
+});
+</script>
+</body>
+</html>

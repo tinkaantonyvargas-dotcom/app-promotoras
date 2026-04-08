@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Avance Mensual – Tinkaventas</title>
+  <link rel="stylesheet" href="css/style-dash.css">
+</head>
+<body>
+<div class="phone-shell">
+
+  <!-- App Bar -->
+  <header class="app-bar">
+    <div class="app-bar__row">
+      <button class="app-bar__back" onclick="history.back()" aria-label="Volver">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <span class="app-bar__title">Avance mensual</span>
+      <div style="width:36px"></div>
+    </div>
+    <div class="app-bar__banner" id="updatedBanner">&nbsp;</div>
+  </header>
+
+  <!-- Body -->
+  <main class="screen-body">
+    <div class="loading" id="loadingState">
+      <div class="spinner"></div>
+    </div>
+    <div id="content" style="display:none"></div>
+  </main>
+
+</div>
+
+<script>
+function clamp(v, min, max) { return Math.min(Math.max(v, min), max); }
+
+function barClass(pct) {
+  if (pct >= 90) return 'green-bar';
+  if (pct >= 60) return '';
+  return 'red-bar';
+}
+
+function progressBar(pct) {
+  const fill = clamp(pct, 0, 100);
+  const cls  = barClass(pct);
+  return `
+    <div class="progress-wrap${cls ? ' ' + cls : ''}">
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${fill}%"></div>
+        <span class="progress-text">${pct.toFixed(2)}%</span>
+      </div>
+    </div>`;
+}
+
+function fmt(n) {
+  return 'S/ ' + Number(n).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function renderCategoria(cat) {
+  return `
+    <div class="section">
+      <div class="month-header">
+        <div class="month-header__title">Avance ${cat.codigo}</div>
+        <div class="month-header__subtitle">${cat.nombre}</div>
+      </div>
+      <div class="card category-card" onclick="window.location.href='detalle-categoria.html?cat=${cat.codigo}'">
+        <div class="metrics-row">
+          <div class="metric">
+            <div class="metric__label">Venta neta</div>
+            <div class="metric__value">${fmt(cat.venta)}</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Cuota mensual</div>
+            <div class="metric__value">${fmt(cat.cuota)}</div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="meta-row">
+          <span class="meta-row__label">Avance de cuota</span>
+          <span class="meta-row__amount">${cat.porcentaje.toFixed(2)}%</span>
+        </div>
+        ${progressBar(cat.porcentaje)}
+        <div class="category-card__hint">Ver productos →</div>
+      </div>
+    </div>`;
+}
+
+function render(data) {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const ts  = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  document.getElementById('updatedBanner').textContent = `Actualizado al ${ts}`;
+
+  let html = `
+    <div class="user-info">
+      ${data.nombre_completo || `Cód. ${data.cod_promotora}`}
+    </div>`;
+
+  if (!data.categorias || data.categorias.length === 0) {
+    html += '<div class="error-msg">No hay datos de categorías disponibles.</div>';
+  } else {
+    for (const cat of data.categorias) {
+      html += renderCategoria(cat);
+    }
+  }
+
+  html += '<div style="height:32px"></div>';
+  document.getElementById('content').innerHTML = html;
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  const cod = localStorage.getItem('cod_promotora');
+  if (!cod) { window.location.href = 'index.html'; return; }
+
+  // Intentar usar datos cacheados
+  const cached = sessionStorage.getItem('promotora_data');
+  if (cached) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    render(JSON.parse(cached));
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/dashboard/${cod}`);
+    const result   = await response.json();
+
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+
+    if (result.success) {
+      sessionStorage.setItem('promotora_data', JSON.stringify(result.data));
+      render(result.data);
+    } else {
+      document.getElementById('content').innerHTML =
+        `<div class="error-msg">${result.message || 'No se encontraron datos.'}</div>`;
+    }
+  } catch (err) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    document.getElementById('content').innerHTML =
+      '<div class="error-msg">Error al conectar con el servidor.</div>';
+  }
+});
+</script>
+</body>
+</html>

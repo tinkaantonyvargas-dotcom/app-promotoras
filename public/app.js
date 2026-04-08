@@ -17,7 +17,7 @@ async function intentarLogin() {
         if (response.ok) {
             // IMPORTANTE: En app.js usas 'cod_promotora', asegúrate de guardar lo mismo
             localStorage.setItem('cod_promotora', cod_promotora); 
-            window.location.href = 'dashboard.html';
+            window.location.href = 'home.html';
         } else {
             errorDiv.style.display = 'block';
             errorDiv.innerText = data.message || 'Código o DNI incorrectos';
@@ -30,11 +30,11 @@ async function intentarLogin() {
 
 // --- LÓGICA DE DASHBOARD (Se ejecuta al cargar la página) ---
 if (window.location.pathname.endsWith('dashboard.html')) {
-    const cod = localStorage.getItem('cod_promotora');
+    // const cod = localStorage.getItem('cod_promotora');
 
-    if (!cod) {
-        window.location.href = 'index.html';
-    }
+    // if (!cod) {
+    //     window.location.href = 'index.html';
+    // }
 
     async function cargarDatos() {
         try {
