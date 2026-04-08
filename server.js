@@ -30,7 +30,13 @@ app.get('/api/dashboard/:cod', async (req, res) => {
 
 // Agrega esto justo antes del const PORT = process.env.PORT...
 const path = require('path');
-app.get('*', (req, res) => {
+// Cambiamos ESTO
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
+
+// POR ESTO (Sintaxis compatible):
+app.get('/:path*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
