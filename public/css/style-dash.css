@@ -13,6 +13,8 @@
   --grey-light1:  #707070;
   --grey-dark1:   #383A35;
   --grey-dark2:   #2B2C2A;
+  --verde-oscuro-tinka:   #096045;
+  --beige-tinka:   #f5f0d4;  
   --white:        #ffffff;
   --font:         'Roboto', 'Segoe UI', Arial, sans-serif;
   --radius:       8px;
@@ -31,14 +33,14 @@ html, body {
   max-width: 430px;
   min-height: 100vh;
   margin: 0 auto;
-  background: #f5f5f5;
+  background: #F5F0D4;
   display: flex;
   flex-direction: column;
 }
 
 /* ── App Bar ── */
 .app-bar {
-  background: var(--grey-dark1);
+  background: var(--verde-oscuro-tinka);
   color: var(--white);
   position: sticky;
   top: 0;
@@ -353,12 +355,51 @@ html, body {
   padding: 24px;
 }
 .pop-overlay.hidden { display: none; }
+.pop-carousel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+}
 .pop-img {
+  flex: 1;
   max-width: 100%;
-  max-height: 70vh;
+  max-height: 65vh;
   border-radius: 12px;
   object-fit: contain;
 }
+.pop-arrow {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pop-arrow:active { background: rgba(255,255,255,0.4); }
+.pop-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.pop-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  padding: 0;
+}
+.pop-dot.active { background: white; }
 .pop-close {
   margin-top: 20px;
   background: var(--white);
@@ -370,6 +411,23 @@ html, body {
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ── Botón Promociones ── */
+.promo-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 16px auto 0;
+  padding: 14px;
+  background: var(--green, #006820);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,104,32,0.30);
+}
+.promo-btn:active { opacity: 0.85; }
 
 /* ── Category cards (clickable) ── */
 .category-card {

@@ -11,7 +11,12 @@
 
   <!-- Pop de campaña -->
   <div class="pop-overlay hidden" id="popOverlay">
-    <img class="pop-img" id="popImg" src="" alt="Campaña">
+    <div class="pop-carousel">
+      <button class="pop-arrow pop-arrow--prev" id="popPrev">&#8249;</button>
+      <img class="pop-img" id="popImg" src="" alt="Campaña">
+      <button class="pop-arrow pop-arrow--next" id="popNext">&#8250;</button>
+    </div>
+    <div class="pop-dots" id="popDots"></div>
     <button class="pop-close" id="popClose">Entendido</button>
   </div>
 
@@ -69,6 +74,8 @@
         <button class="menu-card__btn" onclick="window.location.href='venta-producto.html'">Ver detalle</button>
       </div>
 
+      <button class="promo-btn" id="promoBtn">Promociones</button>
+
     </div>
   </div>
 
@@ -85,15 +92,50 @@ window.addEventListener('DOMContentLoaded', async () => {
     window.location.href = 'index.html';
   };
 
+  // Carrusel de promociones
+  const PROMO_IMAGES = ['images/pop_inicio_2.png', 'images/pop_inicio.jpg', 'images/pop_kpi.png'];
+  let promoIndex = 0;
+
+  function showPromoSlide(index) {
+    document.getElementById('popImg').src = PROMO_IMAGES[index];
+    document.querySelectorAll('.pop-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+  }
+
+  function openPromoPopup(startIndex) {
+    promoIndex = startIndex;
+    showPromoSlide(promoIndex);
+    document.getElementById('popOverlay').classList.remove('hidden');
+  }
+
+  // Crear dots
+  const dotsContainer = document.getElementById('popDots');
+  PROMO_IMAGES.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'pop-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => { promoIndex = i; showPromoSlide(i); };
+    dotsContainer.appendChild(dot);
+  });
+
+  document.getElementById('popPrev').onclick = () => {
+    promoIndex = (promoIndex - 1 + PROMO_IMAGES.length) % PROMO_IMAGES.length;
+    showPromoSlide(promoIndex);
+  };
+  document.getElementById('popNext').onclick = () => {
+    promoIndex = (promoIndex + 1) % PROMO_IMAGES.length;
+    showPromoSlide(promoIndex);
+  };
   document.getElementById('popClose').onclick = () => {
     document.getElementById('popOverlay').classList.add('hidden');
   };
+  document.getElementById('promoBtn').onclick = () => openPromoPopup(0);
 
-  // Intentar mostrar pop de campaña (silencioso si no existe)
-  const popImg = document.getElementById('popImg');
-  popImg.src = 'images/pop_inicio.jpg';
-  popImg.onload  = () => document.getElementById('popOverlay').classList.remove('hidden');
-  popImg.onerror = () => {}; // no existe → no mostrar nada
+  // Auto-mostrar al inicio (silencioso si falla la primera imagen)
+  const testImg = new Image();
+  testImg.onload = () => openPromoPopup(0);
+  testImg.onerror = () => {};
+  testImg.src = PROMO_IMAGES[0];
 
   try {
     const response = await fetch(`/api/dashboard/${cod}`);

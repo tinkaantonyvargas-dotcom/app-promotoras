@@ -106,14 +106,14 @@ body {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(75, 57, 239, 0.3);
+    box-shadow: 0 4px 12px rgba(9, 96, 69, 0.3);
     transition: all 0.2s ease;
     margin-top: 10px;
 }
 
 .btn-ingresar:hover {
-    background-color: #3f30c9;
-    box-shadow: 0 6px 16px rgba(75, 57, 239, 0.4);
+    background-color: #3cc666;
+    box-shadow: 0 6px 16px rgba(9, 96, 69, 0.4);
 }
 
 .btn-ingresar:active {
