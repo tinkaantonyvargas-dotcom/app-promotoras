@@ -178,13 +178,14 @@ html, body {
   height: 28px;
   margin-top: 10px;
 }
-.progress-wrap.green-bar { border-color: var(--green-light); }
-.progress-wrap.red-bar   { border-color: var(--red); }
+.progress-wrap.green-bar  { border-color: var(--green-light); }
+.progress-wrap.yellow-bar { border-color: var(--yellow); }
+.progress-wrap.red-bar    { border-color: var(--red); }
 .progress-track {
   height: 100%;
   background: var(--grey-light4);
   border-radius: 2px;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 .progress-fill {
@@ -193,8 +194,21 @@ html, body {
   border-radius: 2px;
   transition: width 0.6s ease;
 }
-.progress-wrap.green-bar .progress-fill { background: rgba(37,193,84,0.70); }
-.progress-wrap.red-bar   .progress-fill { background: rgba(227,6,19,0.55); }
+.progress-wrap.green-bar  .progress-fill { background: rgba(37,193,84,0.70); }
+.progress-wrap.yellow-bar .progress-fill { background: rgba(255,237,0,0.80); }
+.progress-wrap.red-bar    .progress-fill { background: rgba(227,6,19,0.55); }
+/* Línea de % previsto */
+.progress-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 3px;
+  background: #333;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+}
 .progress-text {
   position: absolute;
   inset: 0;
@@ -205,7 +219,13 @@ html, body {
   font-weight: 600;
   color: #000;
   pointer-events: none;
+  z-index: 3;
 }
+
+/* ── Card color por estado ── */
+.card--green-bar  { background: #e6f9ec; }
+.card--yellow-bar { background: #fffbe6; }
+.card--red-bar    { background: #fdecea; }
 
 /* ── Ranking section ── */
 .ranking-card {

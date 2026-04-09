@@ -36,19 +36,32 @@
 <script>
 function clamp(v, min, max) { return Math.min(Math.max(v, min), max); }
 
-function barClass(pct) {
-  if (pct >= 90) return 'green-bar';
-  if (pct >= 60) return '';
+// Los datos son hasta ayer, por lo que el % previsto usa el día anterior
+function pctPrevisto() {
+  const now     = new Date();
+  const diasMes = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const diaAyer = now.getDate() - 1;
+  return clamp((diaAyer / diasMes) * 100, 0, 100);
+}
+
+function statusClass(pct) {
+  const previsto = pctPrevisto();
+  if (previsto === 0) return 'green-bar';
+  const ratio = (pct / previsto) * 100;
+  if (ratio >= 100) return 'green-bar';
+  if (ratio >= 90)  return 'yellow-bar';
   return 'red-bar';
 }
 
 function progressBar(pct) {
-  const fill = clamp(pct, 0, 100);
-  const cls  = barClass(pct);
+  const fill     = clamp(pct, 0, 100);
+  const previsto = pctPrevisto();
+  const cls      = statusClass(pct);
   return `
-    <div class="progress-wrap${cls ? ' ' + cls : ''}">
+    <div class="progress-wrap ${cls}">
       <div class="progress-track">
         <div class="progress-fill" style="width:${fill}%"></div>
+        <div class="progress-marker" style="left:${previsto}%"></div>
         <span class="progress-text">${pct.toFixed(2)}%</span>
       </div>
     </div>`;
@@ -59,12 +72,13 @@ function fmt(n) {
 }
 
 function renderProducto(p) {
+  const cls = statusClass(p.porcentaje);
   return `
     <div class="section">
       <div class="month-header">
         <div class="month-header__title">${p.producto}</div>
       </div>
-      <div class="card">
+      <div class="card card--${cls}">
         <div class="metrics-row">
           <div class="metric">
             <div class="metric__label">Venta neta</div>
