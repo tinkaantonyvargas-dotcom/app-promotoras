@@ -50,25 +50,26 @@ html, body {
 .app-bar__row {
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  justify-content: center; /* Centra el contenido horizontalmente */
+  padding: 0 16px;
   height: 56px;
+  position: relative;      /* Referencia para el botón absoluto */
 }
+
 .app-bar__title {
-  flex: 1;
   text-align: center;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
   letter-spacing: 0.3px;
+  margin: 0;               /* Quitamos los márgenes laterales */
+  width: auto;             /* Que solo ocupe lo que necesita su texto */
 }
-.app-bar__logout {
-  background: none;
-  border: none;
-  color: var(--grey-light3);
-  cursor: pointer;
-  padding: 8px;
-  font-size: 13px;
-}
+
 .app-bar__back {
+  position: absolute;      /* Flota a la izquierda */
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%); /* Lo centra verticalmente */
   background: none;
   border: none;
   color: var(--white);
@@ -76,7 +77,21 @@ html, body {
   padding: 8px;
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  z-index: 10;
+}
+
+.app-bar__logout {
+  position: absolute;      /* Flota a la derecha */
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--grey-light3);
+  cursor: pointer;
+  padding: 8px;
+  font-size: 13px;
+  z-index: 10;
 }
 .app-bar__banner {
   background: var(--grey-dark2);
@@ -348,7 +363,7 @@ html, body {
   color: var(--grey-light2);
 }
 .menu-card__btn {
-  background: var(--green);
+  background: var(--verde-oscuro-tinka);
   color: var(--white);
   border: none;
   border-radius: 8px;
@@ -357,7 +372,7 @@ html, body {
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0,104,32,0.30);
+  box-shadow: 0 4px 12px rgba(9, 96, 69, 0.30);
   flex-shrink: 0;
 }
 .menu-card__btn:active { opacity: 0.85; }
@@ -444,14 +459,14 @@ html, body {
   width: calc(100% - 32px);
   margin: 16px auto 0;
   padding: 14px;
-  background: var(--green, #006820);
+  background: var(--verde-oscuro-tinka);
   color: white;
   border: none;
   border-radius: 12px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,104,32,0.30);
+  box-shadow: 0 4px 12px rgba(9, 96, 69, 0.30);
 }
 .promo-btn:active { opacity: 0.85; }
 

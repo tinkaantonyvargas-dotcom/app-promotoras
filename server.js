@@ -30,6 +30,7 @@ app.get('/api/dashboard/:cod', async (req, res) => {
 
 // Agrega esto justo antes del const PORT = process.env.PORT...
 const path = require('path');
+const { decode } = require('querystring');
 
 // Cambia esto en server.js
 // Ojo: /.*/ va SIN comillas simples ni dobles.
@@ -38,7 +39,7 @@ app.get(/.*/, (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => console.log(`Servidor de desarrollo corriendo en http://localhost:${PORT}`));
 
 // Agrega esto al final de tu server.js

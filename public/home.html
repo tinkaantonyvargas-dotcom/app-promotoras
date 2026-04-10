@@ -74,7 +74,7 @@
         <button class="menu-card__btn" onclick="window.location.href='venta-producto.html'">Ver detalle</button>
       </div>
 
-      <button class="promo-btn" id="promoBtn">Promociones</button>
+      <button class="promo-btn" id="promoBtn">Promociones vigentes</button>
 
     </div>
   </div>
@@ -159,7 +159,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('updatedBanner').textContent = `Actualizado al ${ts}`;
 
     document.getElementById('greetingName').textContent  = d.nombre_completo || `Cód. ${d.cod_promotora}`;
-    document.getElementById('greetingMeta').textContent  = `Formato: ${d.formato || '–'}  ·  Responsable: ${d.responsable || '–'}`;
+    document.getElementById('greetingMeta').textContent  = `Formato: ${d.formato || '–'}  ·  Jefe Directo: ${d.responsable || '–'}`;
 
     if (d.posicion) {
       document.getElementById('rankingValue').textContent = `#${d.posicion}`;
