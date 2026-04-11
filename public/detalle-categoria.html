@@ -72,8 +72,17 @@ function fmt(n) {
 
 function renderProducto(p) {
   const cls = statusClass(p.porcentaje);
+  const previsto = pctPrevisto();
+  const ratio = (p.porcentaje / previsto) * 100;
+  let coachHTML = '';
+  if (ratio >= 100) {
+    coachHTML = `<div class="coach-overlay-container"><div class="coach-img-wrapper"><img src="images/coach_bueno.png"></div></div>`;
+  } else if (ratio < 90) {
+    coachHTML = `<div class="coach-overlay-container"><div class="coach-img-wrapper"><img src="images/coach_alerta.png"></div></div>`;
+  }
   return `
-    <div class="section">
+    <div class="section" style="position:relative">
+      ${coachHTML}
       <div class="month-header">
         <div class="month-header__title">${p.producto}</div>
       </div>
@@ -123,7 +132,6 @@ function render(data, catCodigo) {
   let html = `
     <div class="user-info">
       ${data.nombre_completo || `Cód. ${data.cod_promotora}`}
-      &nbsp;·&nbsp; ${categoria.nombre}
     </div>`;
 
   if (productosFiltrados.length === 0) {

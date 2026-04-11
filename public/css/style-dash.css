@@ -488,3 +488,30 @@ html, body {
   margin-top: 6px;
   text-align: right;
 }
+/* Contenedor invisible para posicionar al coach */
+/* public/css/style-dash.css */
+
+.coach-overlay-container {
+  position: relative;
+  width: 100%;
+  z-index: 100;
+  /* Eliminamos cualquier overflow:hidden si lo hubiera */
+  overflow: visible; 
+}
+
+.coach-img-wrapper {
+  position: absolute;
+  /* Ajusta el top para que no tape el nombre de la promotora */
+  top: 0px;    
+  /* Pegado a la derecha */
+  right: 5px;   
+  /* CLAVE: Un ancho pequeño para que el globo no sea gigante */
+  width: 170px;  
+  pointer-events: none;
+}
+
+.coach-img-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
